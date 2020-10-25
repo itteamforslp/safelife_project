@@ -1,0 +1,132 @@
+
+
+{% extends "teacher/base.html" %}
+{% load staticfiles%}
+{% block metadata %}
+{% endblock metadata %}
+{% block topbar %}
+<a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="./">Dashboard</a>
+{% endblock topbar %}
+{% block header %}
+<div class="header bg-gradient-teal pb-8 pt-5 pt-md-8">
+    <div class="container-fluid d-flex align-items-center"">
+        <div class="row">
+            <div class="col-lg-7 col-md-10">
+              <h1 class="display-2 text-white">Hello {{ user.get_short_name }}</h1>
+              <p class="text-white mt-0 mb-5">This is your dashboard. You can view classes, and access reporting and attendance features.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock header %}
+{% block content %}
+<div class="card shadow">
+   <div class="card-header border-0">
+      <h3 class="mb-0">My Classes</h3>
+   </div>
+   <div class="table-responsive">
+      <table class="table align-items-center table-flush">
+         <thead class="thead-light">
+            <tr>
+               <th scope="col">Class</th>
+               <th scope="col">Students</th>
+               <th scope="col">Next Class </th>
+               <th scope="col">Notes</th>
+               <th scope="col"></th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for teachercourse in teacher_current_courses %}
+            <tr>
+               <th scope="row">
+                  <div class="media-body">
+                     {% for x,y in next_class_date %}
+                     {% if x == teachercourse.course_id %}
+                     <a href="attendance/{{ x }}/{{ y }}" class="mb-0 text-sm">{{ teachercourse.course_name }} </a>
+                     {% endif %}
+                     {% endfor %}
+                  </div>
+               </th>
+               <th>
+                  <div class="media-body">
+                     <span class="mb-0 text-sm">{% for x,y in teacher_student_count %}
+                     {% if x == teachercourse.course_id %}
+                     {{ y }}
+                     {% endif %}
+                     {% endfor %}
+                     </span>
+                  </div>
+               </th>
+               <th>
+                  <div class="media-body">
+                     <span class="mb-0 text-sm">{% for x,y in next_class_date %}
+                     {% if x == teachercourse.course_id %}
+                     {{ y }}
+                     {% endif %}
+                     {% endfor %}
+                     </span>
+                  </div>
+               </th>
+               <th>
+                  {% for x,y in teacher_course_notes %}
+                  {% if x == teachercourse.course_id %} 
+                  <div class="media-body">
+                     <span class="mb-0 text-sm" id="span{{ teachercourse.course_id }}">
+                     {{ y }}
+                     </span>
+                  </div>
+                  <div id="form_container">
+                     <div class="input-group">
+                        <textarea class="form-control custom-control" rows="3" style="resize:none;display:none" id="textarea{{ teachercourse.course_id }}">{{ y }} </textarea> 
+                        <input type="submit" class="edit" data-course_id="{{ teachercourse.course_id }}" value="Submit" onclick="" id="input{{ teachercourse.course_id }}" style="display:none"/>
+                     </div>
+                  </div>
+               </th>
+               <th>
+                  <base-button type="primary" class="btn btn-primary" button-course_id="{{ teachercourse.course_id }}" id="base-button{{ teachercourse.course_id }}">Edit</base-button>
+               </th>
+               {% endif %}
+               {% endfor %}
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+   </div>
+</div>
+{% endblock content %}
+{% block scripts %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+   $('.edit').click(function(){
+   var course_notes, course_id
+   course_id = $(this).attr("data-course_id");
+   course_notes= document.getElementById("textarea"+course_id).value;
+   $.ajax(
+   {
+       type:"POST",
+       url: "updateCourseNotes",
+       data:{
+            courseNotes: course_notes,
+            courseId: course_id
+       },
+   })
+   $('#'+"textarea"+course_id).hide();
+   $(this).hide();
+   $('#'+"span"+course_id).show();
+   $('#'+"base-button"+course_id).show();
+   window.location.reload();
+   });
+   
+   $('base-button').click(function(){
+   var course_id
+   course_id = $(this).attr("button-course_id");
+   $('#'+"span"+course_id).hide();
+   $(this).hide();
+   $('#'+"textarea"+course_id).show();
+   $('#'+"input"+course_id).show();
+   });
+   
+</script>
+{% endblock scripts %}
+

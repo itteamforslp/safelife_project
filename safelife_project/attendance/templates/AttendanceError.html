@@ -1,0 +1,72 @@
+
+
+{% extends "teacher/base.html" %}
+{% block metadata %}
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+{% endblock metadata %}
+{% block topbar %}
+<a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="./">Attendance</a>
+{% endblock topbar %}
+{% block header %}
+<div class="header bg-gradient-teal pb-8 pt-5 pt-md-8">
+   <div class="container-fluid d-flex align-items-center">
+      <div class="row">
+         <div class="col-lg-7 col-md-10">
+            <h1 class="display-2 text-white">Hello {{ user.get_short_name }}</h1>
+            <p class="text-white mt-0 mb-5">This is your dashboard. You can view classes, access reporting, and manage classes and accounts.</p>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock header %}
+{% block content %}
+<div class="content">
+   <div class="row">
+      <div class="col-md-12">
+         <div class="card ">
+            <div class="card-header">
+               <!--Title needs to pull course name from db-->
+               <h4 class="card-title">You do not have access to this course.</h4>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock content %}
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script type="text/javascript">
+   $('.switch').click(function(){
+   var students_name;
+   students_name = $(this).attr("data-students_name");
+   $.ajax(
+   {
+       type:"GET",
+       url: "updateStudent",
+       data:{
+                studentName: students_name,
+       },
+    })
+   });
+</script>
+<script type="text/javascript">
+   $('.checkbox2').click(function(){
+   var students_name, student_absent_date;
+   students_name = $(this).attr("data-students_name");
+   student_absent_date = $(this).attr("data-student_absent_date");
+   $.ajax(
+   {
+       type:"GET",
+       url: "updateStudentAbsent",
+       data:{
+            studentName: students_name,
+            absentDate: student_absent_date
+       },
+    })
+   });
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+{% endblock scripts %}
+

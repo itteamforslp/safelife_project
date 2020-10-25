@@ -1,0 +1,168 @@
+
+
+{% extends "administrator/base.html" %}
+{% block metadata %}
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+{% endblock metadata %}
+{% block topbar %}
+<a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="./">Attendance</a>
+{% endblock topbar %}
+{% block header %}
+<div class="header bg-gradient-indigo pb-8 pt-5 pt-md-8">
+   <div class="container-fluid d-flex align-items-center">
+      <div class="row">
+         <div class="col-lg-7 col-md-10">
+            <h1 class="display-2 text-white">Hello {{ user.get_short_name }}</h1>
+            <p class="text-white mt-0 mb-5">This is your dashboard. You can view classes, access reporting, and manage classes and accounts.</p>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock header %}
+{% block content %}
+<div class="content">
+   <div class="row">
+      <div class="col-md-12">
+         <div class="card ">
+            <div class="card-header">
+               <!--Title needs to pull course name from db-->
+               <h4 class="card-title">Course: {{ course_name }}</h4>
+               <h4 class="card-title">Date: {{ current_date }}</h4>
+            </div>
+            <div class="btn-group">
+               <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select Date</button>
+               <div class="dropdown-menu">
+                  {%  for Date in class_dates %}
+                  <a class="dropdown-item" id='{{Date.date}}' data-date='{{Date.date}}' href="#">{{Date.date}}</a>
+                  {%  endfor %}
+               </div>
+            </div>
+            <!-- /btn-group -->
+            <div class="card-body">
+               <div class="table-responsive">
+                  <table class="table tablesorter " id="">
+                     <thead class=" text-primary">
+                        <tr>
+                           <th>
+                              Name
+                           </th>
+                           <th>
+                              Status
+                           </th>
+                           <th>
+                              Makeup
+                           </th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {%  for Student in all_students %}
+                        <tr>
+                           <td>{{ Student.student_name }}</td>
+                           {% ifequal "Absent" Student.status %}
+                           <td>
+                              <label class="switch" id="{{Student.student_name}}" href="#" data-students_name="{{ Student.student_name }}">
+                              <input type="checkbox" checked data-toggle="toggle" data-on="Absent" data-off="Present" data-onstyle="danger" data-offstyle="success">
+                              <span class="slider round"></span>
+                              </label>
+                           </td>
+                           {% else %}
+                           <td>
+                              <label class="switch" id="{{Student.student_name}}" href="#" data-students_name="{{ Student.student_name }}">
+                              <input type="checkbox" data-toggle="toggle" data-on="Absent" data-off="Present" data-onstyle="danger" data-offstyle="success">
+                              <span class="slider round"></span>
+                              </label>
+                           </td>
+                           {% endifequal %}
+                           <td>
+                              {%  for Absent in absent_students %}
+                              {% ifequal Student.student_name Absent.student_name %}
+                              <label>{{Absent.date}}</label>
+                              <input type="date" id="{{Student.student_name}} {{ Absent.date }}" href="#" data-students_name="{{ Student.student_name }}" data-student_absent_date="{{ Absent.date }}" onchange="handler(this);"></br>
+                              {% endifequal %}
+                              {%  endfor %}
+                           </td>
+                           </td>
+                        </tr>
+                        {%  endfor %}
+                     </tbody>
+                  </table>
+                  </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock content %}
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script type="text/javascript">
+   $('.switch').click(function(){
+   var students_name;
+   students_name = $(this).attr("data-students_name");
+   $.ajax(
+   {
+       type:"GET",
+       url: "updateStudent",
+       data:{
+                studentName: students_name,
+       },
+    })
+   });
+</script>
+<script type="text/javascript">
+   $('.date').click(function(){
+   var students_name, student_absent_date, date;
+   students_name = $(this).attr("data-students_name");
+   student_absent_date = $(this).attr("data-student_absent_date");
+   date = $(this).valueOf();
+   alert(date);
+   $.ajax(
+   {
+       type:"GET",
+       url: "updateStudentAbsent",
+       data:{
+            studentName: students_name,
+            absentDate: student_absent_date
+       },
+    })
+   });
+</script>
+<script type="text/javascript">
+   $('.dropdown-item').click(function(){
+   var date;
+   date = $(this).attr("data-date");
+   var url = window.location.href;
+   var url_arr = url.split('/');
+   url_arr.pop();
+   url_arr.pop();
+   url = url_arr.join('/');
+   url = url + '/' + date;
+   window.location.replace(url);
+   });
+</script>
+<script>
+   function handler(e){
+     var students_name, student_absent_date, date;
+      students_name = e.getAttribute("data-students_name");
+      student_absent_date = e.getAttribute("data-student_absent_date");
+      date = e.value;
+      $.ajax(
+      {
+          type:"GET",
+          url: "updateStudentAbsent",
+          data:{
+               studentName: students_name,
+               absentDate: student_absent_date,
+               makeupDate: date
+          },
+       });
+   }
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
+{% endblock scripts %}
+

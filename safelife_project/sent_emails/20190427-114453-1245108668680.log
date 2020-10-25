@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Password reset on localhost:8000
+From: webmaster@my-host.com
+To: scrumbags2018@gmail.com
+Date: Sat, 27 Apr 2019 18:44:53 -0000
+Message-ID: <155639069314.1408.1878927865020315905@DESKTOP-D6QSOAF>
+
+
+You're receiving this email because you requested a password reset for your user account at localhost:8000.
+
+Please go to the following page and choose a new password:
+
+http://localhost:8000/users/password-reset-confirm/MTA/55u-c0f8a5e56d0c7016f970/
+
+Your username, in case you've forgotten: Scrumbags
+
+Thanks for using our site!
+
+The localhost:8000 team
+
+
+
+-------------------------------------------------------------------------------

@@ -1,0 +1,97 @@
+INSERT INTO students(student_id, student_name)
+VALUES('101', 'FirstName1 LastName1');
+INSERT INTO students(student_id, student_name)
+VALUES('102', 'FirstName2 LastName2');
+INSERT INTO students(student_id, student_name)
+VALUES('103', 'FirstName3 LastName3');
+INSERT INTO students(student_id, student_name)
+VALUES('104', 'FirstName4 LastName4');
+
+INSERT INTO teachers(teacher_id, teacher_name)
+VALUES('201', 'FirstName1 LastName1');
+INSERT INTO teachers(teacher_id, teacher_name)
+VALUES('202', 'FirstName2 LastName2');
+
+INSERT INTO courses(course_id, course_name)
+VALUES('301', 'CourseName1');
+INSERT INTO courses(course_id, course_name)
+VALUES('302', 'CourseName2');
+
+INSERT INTO course_students(course_id, students_id)
+VALUES('301', '101');
+INSERT INTO course_students(course_id, students_id)
+VALUES('301', '102');
+INSERT INTO course_students(course_id, students_id)
+VALUES('302', '103');
+INSERT INTO course_students(course_id, students_id)
+VALUES('302', '104');
+
+INSERT INTO course_teachers(course_id, teachers_id)
+VALUES('301', '201');
+
+INSERT INTO classes(course_id, date)
+VALUES('301', '2019-03-23');
+INSERT INTO classes(course_id, date)
+VALUES('301', '2019-03-24');
+INSERT INTO classes(course_id, date)
+VALUES('301', '2019-03-25');
+INSERT INTO classes(course_id, date)
+VALUES('301', '2019-03-26');
+INSERT INTO classes(course_id, date)
+VALUES('301', '2019-03-27');
+
+INSERT INTO classes(course_id, date)
+VALUES('302', '2019-03-23');
+INSERT INTO classes(course_id, date)
+VALUES('302', '2019-03-24');
+INSERT INTO classes(course_id, date)
+VALUES('302', '2019-03-25');
+INSERT INTO classes(course_id, date)
+VALUES('302', '2019-03-26');
+INSERT INTO classes(course_id, date)
+VALUES('302', '2019-03-27');
+
+INSERT INTO attendances(classes, students, status, date)
+VALUES('301', '101' , 'Absent', '2019-03-23');
+INSERT INTO attendances(classes, students, status, date)
+VALUES('301', '101' , 'Absent', '2019-03-24');
+INSERT INTO attendances(classes, students, status, date)
+VALUES('301', '101' , 'Absent', '2019-03-25');
+INSERT INTO attendances(classes, students, status, date)
+VALUES('301', '101' , 'Absent', '2019-03-26');
+INSERT INTO attendances(classes, students, status, date)
+VALUES('301', '101' , 'Absent', '2019-03-27');
+
+INSERT INTO attendances(classes, students, status, date)
+VALUES('301', '102' , 'Absent', '2019-03-23');
+INSERT INTO attendances(classes, students, status, date)
+VALUES('301', '102' , 'Absent', '2019-03-24');
+INSERT INTO attendances(classes, students, status, date)
+VALUES('301', '102' , 'Absent', '2019-03-25');
+INSERT INTO attendances(classes, students, status, date)
+VALUES('301', '102' , 'Absent', '2019-03-26');
+INSERT INTO attendances(classes, students, status, date)
+VALUES('301', '102' , 'Absent', '2019-03-27');
+
+INSERT INTO attendances(classes, students, status, date)
+VALUES('302', '103' , 'Absent', '2019-03-23');
+INSERT INTO attendances(classes, students, status, date)
+VALUES('302', '103' , 'Absent', '2019-03-24');
+INSERT INTO attendances(classes, students, status, date)
+VALUES('302', '103' , 'Absent', '2019-03-25');
+INSERT INTO attendances(classes, students, status, date)
+VALUES('302', '103' , 'Absent', '2019-03-26');
+INSERT INTO attendances(classes, students, status, date)
+VALUES('302', '103' , 'Absent', '2019-03-27');
+
+INSERT INTO attendances(classes, students, status, date)
+VALUES('302', '104' , 'Absent', '2019-03-23');
+INSERT INTO attendances(classes, students, status, date)
+VALUES('302', '104' , 'Absent', '2019-03-24');
+INSERT INTO attendances(classes, students, status, date)
+VALUES('302', '104' , 'Absent', '2019-03-25');
+INSERT INTO attendances(classes, students, status, date)
+VALUES('302', '104' , 'Absent', '2019-03-26');
+INSERT INTO attendances(classes, students, status, date)
+VALUES('302', '104' , 'Absent', '2019-03-27');
+

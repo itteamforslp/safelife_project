@@ -1,0 +1,156 @@
+{% extends "teacher/base.html" %}
+{% block metadata %}
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+{% endblock metadata %}
+{% block topbar %}
+<a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="./">Reporting</a>
+{% endblock topbar %}
+{% block header %}
+<div class="header bg-gradient-teal pb-8 pt-5 pt-md-8">
+   <div class="container-fluid d-flex align-items-center">
+      <div class="row">
+         <div class="col-lg-7 col-md-10">
+            <h1 class="display-2 text-white">{{ user.get_short_name }}</h1>
+            <p class="text-white mt-0 mb-5">This page displays each student's attendance per course session</p>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock header %}
+{% block content %}
+<div class="content">
+<div class="row">
+<div class="col-md-12">
+<div class="card ">
+   <div class="card-header">
+      <!--Title needs to pull course name from db-->
+      <h4 class="card-title"> Reporting</h4>
+   </div>
+   <div class="table-responsive">
+      <table class="table align-items-center table-flush">
+         <thead class="thead-light">
+            <tr>
+               <th scope="col">Class</th>
+               <th scope="col">Students</th>
+         </thead>
+         </tr>
+         <tbody>
+            {% for teachercourse in teacher_current_courses %}
+            <tr>
+               <th scope="row">
+                  <div class="media-body">
+                     <a href="{{ teachercourse.course_id }}/0" class="mb-0 text-sm">{{ teachercourse.course_name }} </a>
+                  </div>
+               </th>
+               <th>
+                  <div class="media-body">
+                     <span class="mb-0 text-sm">{% for x,y in teacher_student_count %}
+                      {% if x == teachercourse.course_id %}
+                        {{ y }}
+                      {% endif %}
+                     {% endfor %}
+                     </span>
+                  </div>
+               </th>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+      <!--<div class="input-group mb-3">
+         <div class="input-group-prepend">
+           <label class="input-group-text" for="inputGroupSelect01">Class</label>
+         </div>
+         <select class="custom-select" id="inputGroupSelect01">
+             <option selected>Choose Class</option>
+         {%  for Course in all_courses %}
+
+             <option class = "dropdown-item" href='{{Course.course_name}}' id = '{{Course.course_id}}'>{{Course.course_id}}</option>
+             {%  endfor %}
+         </select>
+         </div>
+
+         <div class="input-group mb-3">
+           <div class="input-group-append">
+               <label class="input-group-text" for="inputGroupSelect02">Student</label>
+             </div>
+           <select class="custom-select" id="inputGroupSelect02">
+           <option selected>Choose Student</option>
+           <option value="1">All</option>
+         {% for Student in all_students %}
+
+           <option href='Student.student_name' class_choice = '{{Student.student_name}}'>{{Student.student_name}}</option>
+           {%  endfor %}
+         </select>
+
+         </div>
+
+         <div class="input-group mb-3">
+         <div class="input-group-prepend">
+           <label class="input-group-text" for="inputGroupSelect03">Report Type</label>
+         </div>
+         <select class="custom-select" id="inputGroupSelect03">
+           <option selected>Choose Report Type</option>
+           <option value="1">Attendance</option>
+           <option value="2">Pre-Assessment</option>
+           <option value="3">Post-Assessment</option>
+         </select>
+         </div>
+
+         </div>
+         <th>
+         </div>
+         <tr>
+         <div>
+         <base-button id="btn" class="btn btn-primary" type = "btn-group" aria-hashpopup="true" aria-expanded="false">Generate Report</base-button>
+         </div></th> -->
+      </tr>
+      <div class="card-body">
+         <div class="table-responsive">
+            <table class="table tablesorter " id="">
+               <thead class=" text-primary">
+                  <tr>
+               </thead>
+            </table>
+            </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock content %}
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script type="text/javascript">
+   $(document).ready(function(){
+     //var chosenClass = $('.custom-select : selected').val();
+     //var chosenClass = $('#inputGroupSelect03').find(":selected").text();
+   });
+     $('#btn').click(function(){
+
+       var box = document.getElementById('inputGroupSelect01');
+       chosenClass = box.options[box.selectedIndex].text;
+       var box2 = document.getElementById('inputGroupSelect02');
+       chosenStudent = box2.options[box2.selectedIndex].text;
+       var box3 = document.getElementById('inputGroupSelect03');
+       chosenReport = box3.options[box3.selectedIndex].text;
+       alert(chosenClass + " " + chosenStudent + " " + chosenReport);
+
+           });
+</script>
+<script type="text/javascript">
+   $('.dropdown-item').click(function(){
+   var classChoice;
+   classChoice = $(this).attr("class_choice");
+   var url = window.location.href;
+   var url_arr = url.split('/');
+   url_arr.pop();
+   url_arr.pop();
+   url = url_arr.join('/');
+   url = url + '/' + date;
+   window.location.replace(url);
+   });
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+{% endblock scripts %}

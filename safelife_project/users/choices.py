@@ -1,0 +1,11 @@
+
+
+ADMINISTRATOR = 'admin'
+TEACHER = 'teacher'
+STUDENTS = 'student'
+	
+ACCOUNT_STATUS = (
+	(1, ADMINISTRATOR),
+	(2, TEACHER),
+	(3, STUDENTS),
+)

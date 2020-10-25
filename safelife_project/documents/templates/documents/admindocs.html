@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, height=100%">
+  <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
+  <meta name="author" content="Creative Tim">
+  <!-- End Google Tag Manager -->
+  <!-- Favicon -->
+  <link href="{% static '/assets/img/brand/favicon.png' %}" rel="icon" type="image/png">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <!-- Icons -->
+  <link href="{% static '/assets/vendor/nucleo/css/nucleo.css" rel="stylesheet' %}">
+  <link href="{% static '/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+  <!-- Argon CSS -->
+  <link type="text/css" href="{% static '/assets/css/argon.min.css' %}" rel="stylesheet">
+
+  <body class="docs">
+    {% for currentdoc in current_doc %}
+      <header class="navbar navbar-horizontal navbar-expand navbar-dark bg-primary flex-row align-items-md-center ct-navbar">
+        <a class="navbar-brand mr-0 mr-md-2 text-white" aria-label="Bootstrap">
+          SAFE LIFE PROJECT
+          <sup>Docs</sup>
+        </a>
+          <ul class="navbar-nav flex-row mr-auto ml-4 d-none d-md-flex">
+            <li class="nav-item">
+              <a class="nav-link" href="/administrator">Dashboard</a>
+            </li>
+          </ul>
+        <a href="{{ currentdoc.download_link }}" target="_blank" class="btn btn-neutral btn-icon ml-sm-3 d-none d-md-block">
+          <span class="btn-inner--icon">
+            <i class="fas fa-download mr-2"></i>
+          </span>
+          <span class="nav-link-inner--text">Download</span>
+        </a>
+        <button class="navbar-toggler ct-search-docs-toggle d-block d-md-none ml-auto ml-sm-0" type="button" data-toggle="collapse" data-target="#ct-docs-nav" aria-controls="ct-docs-nav" aria-expanded="false" aria-label="Toggle docs navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </header>
+      <div class="container-fluid" style="min-height: 100%;">
+            <div class="row flex-xl-nowrap">
+      <div class="sidebar" style="padding-top: 30px; padding-right: 30px; border-right: 5px solid #5e72e4;"><nav class="nav-links"><div class="nav-item"></div> <!----></nav>  
+      {% for category in categories %}
+      <ul class="sidebar-links"><li><div class="sidebar-group first">
+          <p class="sidebar-heading">
+              <span>{{ category.doc_type }}</span> <!----></p> 
+              <ul class="sidebar-group-items">
+                {% for x,y,z in doc_list %}
+                {% if z == category.doc_type_id %}
+                  <li><a href='/administrator/documents/{{ x }}' class="mb-0 text-sm" class='doclink' id='{{ x }}' doc_id='{{ x }}'>{{ y }}</a></li>
+                {% endif %}
+                {% endfor %}
+                </ul>
+            </div></li>
+    </ul> 
+    {% endfor %}
+    </div> 
+          <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 ct-content" role="main">
+            <div class="col-lg-7 col-md-10">
+              <h1 class="display-2 text-black">{{ currentdoc.doc_name }}</h1>
+            </div>
+            <iframe src='{{ currentdoc.preview_link }}' width="100%" height="100%" style="text-align: center"></iframe>
+          </main>
+        </div>
+      </div>
+      {% endfor %}
+    </body>
+  <!-- Argon Scripts -->
+  <!-- Core -->
+  <script src="{% static '/assets/vendor/jquery/dist/jquery.min.js' %}"></script>
+  <script src="{% static '/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+  <!-- Argon JS -->
+  <script src="{% static '/assets/js/argon.min.js' %}"></script>
+  <script type="text/javascript">
+    $('.doclink').click(function(){
+    var doc_id;
+    doc_id = $(this).attr("doc_id");
+    alert(doc_id);
+    var url = window.location.href;
+    var url_arr = url.split('/');
+    url_arr.pop();
+    url_arr.pop();
+    url = url_arr.join('/');
+    alert(url);
+    window.location.replace(url);
+    });
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+

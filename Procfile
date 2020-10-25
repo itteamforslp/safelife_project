@@ -1,1 +1,1 @@
-web: gunicorn safelife_project.wsgi --log-file - --log-level debug
+web: gunicorn safelife_project.wsgi

@@ -1,1 +1,1 @@
-web: gunicorn safelife_project.wsgi
+web: gunicorn safelife_project.wsgi:application

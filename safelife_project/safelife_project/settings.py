@@ -26,7 +26,7 @@ SECRET_KEY = '(m71(q1*8as#3xjscj=sp_3*^2##+=4hv*s+@*57eoo6zk^qv2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0','localhost', 'portal-to-success.herokuapp.com',]
+ALLOWED_HOSTS = ['0.0.0.0','localhost', 'portal-2-success.herokuapp.com',]
 
 
 # Application definition

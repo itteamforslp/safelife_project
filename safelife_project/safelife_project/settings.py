@@ -32,12 +32,12 @@ ALLOWED_HOSTS = ['0.0.0.0','localhost', 'portal-2-success.herokuapp.com',]
 # Application definition
 
 INSTALLED_APPS = [
-    'reporting.apps.ReportingConfig',
     'users.apps.UsersConfig',
     'administrator.apps.AdministratorConfig',
     'teacher.apps.TeacherConfig',
     'attendance.apps.AttendanceConfig',
     'documents.apps.DocumentsConfig',
+    'reporting.apps.ReportingConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -46,18 +46,19 @@ ALLOWED_HOSTS = ['0.0.0.0','localhost', 'portal-2-success.herokuapp.com',]
 # Application definition
 
 INSTALLED_APPS = [
+   
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles', 
     'users.apps.UsersConfig',
     'administrator.apps.AdministratorConfig',
     'teacher.apps.TeacherConfig',
     'attendance.apps.AttendanceConfig',
     'documents.apps.DocumentsConfig',
     'reporting.apps.ReportingConfig',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
 ]
 
 MIDDLEWARE = [

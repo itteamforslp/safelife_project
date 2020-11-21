@@ -37,6 +37,8 @@ STATICFILES_DIRS = (
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '(m71(q1*8as#3xjscj=sp_3*^2##+=4hv*s+@*57eoo6zk^qv2'
 
+CLICKUP_PERSONAL_KEY = 'pk_10644638_1MGIWXXXG4HHRV2JR6ASMV4WMH9WXPBN'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -96,9 +98,9 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 EMAIL_USE_TLS = True 
 EMAIL_HOST = 'smtp.gmail.com' 
 EMAIL_PORT = 587 
-EMAIL_HOST_USER = 'scrumbags2018@gmail.com' 
-EMAIL_HOST_PASSWORD = 'goliveready' 
-DEFAULT_FROM_EMAIL = 'scrumbags2018@gmail.com'
+EMAIL_HOST_USER = 'itteamforslp@gmail.com' 
+EMAIL_HOST_PASSWORD = 'slpgoliveready' 
+DEFAULT_FROM_EMAIL = 'itteamforslp@gmail.com'
 
 
 

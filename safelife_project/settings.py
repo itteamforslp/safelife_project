@@ -37,8 +37,6 @@ STATICFILES_DIRS = (
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '(m71(q1*8as#3xjscj=sp_3*^2##+=4hv*s+@*57eoo6zk^qv2'
 
-CLICKUP_PERSONAL_KEY = 'pk_10644638_1MGIWXXXG4HHRV2JR6ASMV4WMH9WXPBN'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

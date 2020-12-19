@@ -6,8 +6,24 @@ from django.db import connection
 import datetime
 
 
+#def updateTable():
+  # for each date:
+  #     for each class:
+  #         get student id
+  #         check if present/non present
+  
+  
+  #get the date
+
+
+
+
 def index(request, course_id, date):
     super = request.user.is_superuser
+   
+    print(course_id)
+    print(date)
+
     with connection.cursor() as cursor:
         # Get the students attendance status
         cursor.execute('SELECT * '
@@ -25,21 +41,27 @@ def index(request, course_id, date):
         template = loader.get_template('TeacherAttendanceIndex.html')
     if attendance_status is not None or super is True:
         # Get the current date in the following format: <4 Digit Year>-<2 Digit Month>-<2 Digit Day>
-        currentdate = datetime.datetime.strptime(date, '%B %d, %Y').strftime('%Y-%m-%d')
+        currentdate = datetime.datetime.strptime(date, '%b. %d, %Y').strftime('%Y-%m-%d')
         # Get the name of each student that is enrolled in the class
         all_students = Student.objects.select_related().raw('SELECT * '
                                                             'FROM students as S, classes as CL, attendances as A '
-                                                            'WHERE CL.course_id = %s AND S.student_id = A.students '
-                                                            'AND CL.course_id = A.classes AND CL.date = A.date '
+                                                            'WHERE CL.course_id = %s AND S.student_id = A.student_id '
+                                                            'AND CL.course_id = A.course_id AND CL.date = A.date '
                                                             'AND A.date = %s ', [course_id, currentdate])
+
+        print(len(list(all_students)))
+        print(currentdate)
+
         # Get every recorded absence prior to the current date
         absent_students = Student.objects.select_related().raw('SELECT * '
                                                                'FROM students as S, classes as CL, attendances as A '
-                                                               'WHERE CL.course_id = %s AND S.student_id = A.students '
-                                                               'AND CL.course_id = A.classes AND CL.date = A.date '
+                                                               'WHERE CL.course_id = %s AND S.student_id = A.student_id '
+                                                               'AND CL.course_id = A.course_id AND CL.date = A.date '
                                                                'AND A.status = "Absent" AND A.date < %s ',
                                                                [course_id, currentdate])
         class_dates = Class.objects.filter(course=course_id)
+
+                                                                  
         currentdate = datetime.datetime.strptime(currentdate, '%Y-%m-%d').strftime('%B %d, %Y')
         # Create a template using AdminAttendanceIndex.html, and pass into it the list of student names and recorded absences
 
@@ -68,8 +90,8 @@ def update_student(request, course_id, date):
         # Get the students attendance status
         cursor.execute('SELECT A.status '
                        'FROM students as S, classes as CL, attendances as A '
-                       'WHERE CL.course_id = %s AND S.student_id = A.students '
-                       'AND CL.course_id = A.classes AND CL.date = A.date '
+                       'WHERE CL.course_id = %s AND S.student_id = A.student_id '
+                       'AND CL.course_id = A.course_id AND CL.date = A.date '
                        'AND A.date = %s AND S.student_name = %s ', [course_id, currentdate, student_data.student_name])
         # attendance_status is a tuple containing the students attendance status
         attendance_status = cursor.fetchone()
@@ -105,8 +127,8 @@ def update_student_absent(request, course_id, date):
         # Get the students attendance status
         cursor.execute('SELECT A.status '
                        'FROM students as S, classes as CL, attendances as A '
-                       'WHERE CL.course_id = %s AND S.student_id = A.students '
-                       'AND CL.course_id = A.classes AND CL.date = A.date '
+                       'WHERE CL.course_id = %s AND S.student_id = A.student_id '
+                       'AND CL.course_id = A.course_id AND CL.date = A.date '
                        'AND A.date = %s AND S.student_name = %s', [course_id, date, student_data.student_name])
         # attendance_status is a tuple containing the students attendance status
         attendance_status = cursor.fetchone()

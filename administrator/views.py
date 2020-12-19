@@ -11,6 +11,7 @@ from django.db.models import Count
 from administrator.models import Course, CourseTeacher, CourseStudent, Student, Class
 from documents.models import Document
 from django.core.exceptions import PermissionDenied
+from django.dispatch import receiver
 
  #Limit view to admin only."""
 def admin_only(function):

@@ -90,9 +90,9 @@ class Class(models.Model):
 
 class Attendance(models.Model):
    # classroom = models.ForeignKey(Class, related_name='class_identitfication', on_delete=models.CASCADE) 
-    course = models.ForeignKey(Course, related_name='course_identifier', on_delete=models.RESTRICT)
-    student = models.ForeignKey(Student, on_delete=models.RESTRICT)
-    class_id = models.ForeignKey(Class, on_delete=RESTRICT)
+    course = models.ForeignKey(Course, related_name='course_identifier', on_delete=models.PROTECT)
+    student = models.ForeignKey(Student, on_delete=models.PROTECT)
+    class_id = models.ForeignKey(Class, on_delete=models.PROTECT)
     status = models.BooleanField(default = False)
     date = models.DateField()#ForeignKey(Class, null = True, blank = True, on_delete=models.CASCADE)
 

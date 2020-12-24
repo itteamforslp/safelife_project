@@ -67,6 +67,7 @@ class CourseTeacher(models.Model):
 
 
 class Class(models.Model):
+    class_id = models.AutoField(max_length=5, primary_key=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     date = models.DateField()
 
@@ -91,6 +92,7 @@ class Attendance(models.Model):
    # classroom = models.ForeignKey(Class, related_name='class_identitfication', on_delete=models.CASCADE) 
     course = models.ForeignKey(Course, related_name='course_identifier', on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    class_id = models.ForeignKey(Class, on_delete=models.CASCADE)
     status = models.BooleanField(default = False)
     date = models.DateField()#ForeignKey(Class, null = True, blank = True, on_delete=models.CASCADE)
 

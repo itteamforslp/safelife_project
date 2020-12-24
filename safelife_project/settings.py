@@ -109,10 +109,10 @@ WSGI_APPLICATION = 'safelife_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'p94lfhv7dkau9wk8',
-        'USER': 'vyffx95mirb1sadz',
-        'PASSWORD': 'jvaj0eo4l8nj7tj5',
-        'HOST': 'ijj1btjwrd3b7932.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+        'NAME': 'dpw5irdrdo1jhqj6',
+        'USER': 'iqdt5znqbhm1gvtj',
+        'PASSWORD': 'zj3xo31ggb3f8y0q',
+        'HOST': 'l0ebsc9jituxzmts.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
         'PORT': '3306'
     }
 }

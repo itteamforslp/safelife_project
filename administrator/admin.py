@@ -36,7 +36,6 @@ class CourseAdmin(admin.ModelAdmin):
         CourseStudentInline,
         CourseTeacherInline,
         ClassInline,
-        AttendanceInline,
     ]
     exclude = ('notes',)
     

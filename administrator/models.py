@@ -94,7 +94,7 @@ class Attendance(models.Model):
     status = models.BooleanField(default = False)
     date = models.DateField()#ForeignKey(Class, null = True, blank = True, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, related_name='course_identifier', on_delete=models.CASCADE)
-    class_id = models.ForeignKey(Class, on_delete=models.CASCADE)
+    Class = models.ForeignKey(Class, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
 
    # def save(self, *args, **kwargs):

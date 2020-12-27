@@ -76,6 +76,10 @@ class Class(models.Model):
 
     class Meta:
         db_table = 'classes'
+    
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            super(Class, self).save(*args, **kwargs)
 #
 #    def save(self, *args, **kwargs):
 #        created = not self.pk

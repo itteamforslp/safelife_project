@@ -89,12 +89,13 @@ class Class(models.Model):
 #            print("Created attendance!")
 
 class Attendance(models.Model):
-   # classroom = models.ForeignKey(Class, related_name='class_identitfication', on_delete=models.CASCADE) 
-    course = models.ForeignKey(Course, related_name='course_identifier', on_delete=models.PROTECT)
-    student = models.ForeignKey(Student, on_delete=models.PROTECT)
-    class_id = models.ForeignKey(Class, on_delete=models.PROTECT)
+   # classroom = models.ForeignKey(Class, related_name='class_identitfication', on_delete=models.CASCADE)
+    attendance_id = models.VarField(ma_length=50, primary_key=True)
     status = models.BooleanField(default = False)
     date = models.DateField()#ForeignKey(Class, null = True, blank = True, on_delete=models.CASCADE)
+    course_id = models.ForeignKey(Course, related_name='course_identifier', on_delete=models.CASCADE)
+    class_id = models.ForeignKey(Class, on_delete=models.CASCADE)
+    student_id = models.ForeignKey(Student, on_delete=models.CASCADE)
 
    # def save(self, *args, **kwargs):
    #     if self.date is None:

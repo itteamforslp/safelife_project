@@ -6,23 +6,8 @@ from django.db import connection
 import datetime
 
 
-#def updateTable():
-  # for each date:
-  #     for each class:
-  #         get student id
-  #         check if present/non present
-  
-  
-  #get the date
-
-
-
-
 def index(request, course_id, date):
     super = request.user.is_superuser
-   
-    print(course_id)
-    print(date)
 
     with connection.cursor() as cursor:
         # Get the students attendance status
@@ -44,20 +29,17 @@ def index(request, course_id, date):
         currentdate = datetime.datetime.strptime(date, '%b. %d, %Y').strftime('%Y-%m-%d')
         # Get the name of each student that is enrolled in the class
         all_students = Student.objects.select_related().raw('SELECT * '
-                                                            'FROM students as S, classes as CL, attendances as A '
-                                                            'WHERE CL.course_id = %s AND S.student_id = A.student_id '
-                                                            'AND CL.course_id = A.course_id AND CL.date = A.date '
-                                                            'AND A.date = %s ', [course_id, currentdate])
-
-        print(len(list(all_students)))
-        print(currentdate)
+                                                            'FROM students as S, classes as CL, course_students as CS '
+                                                            'WHERE CL.course_id = %s AND S.student_id = CS.students_id '
+                                                            'AND CL.course_id = CS.course_id '
+                                                            'AND CL.date = %s ', [course_id, currentdate])
 
         # Get every recorded absence prior to the current date
         absent_students = Student.objects.select_related().raw('SELECT * '
                                                                'FROM students as S, classes as CL, attendances as A '
                                                                'WHERE CL.course_id = %s AND S.student_id = A.student_id '
                                                                'AND CL.course_id = A.course_id AND CL.date = A.date '
-                                                               'AND A.status = "Absent" AND A.date < %s ',
+                                                               'AND A.status = 1 AND A.date < %s ',
                                                                [course_id, currentdate])
         class_dates = Class.objects.filter(course=course_id)
 
@@ -80,7 +62,7 @@ def index(request, course_id, date):
 
 def update_student(request, course_id, date):
     # Get the current date in the following format: <4 Digit Year>-<2 Digit Month>-<2 Digit Day>
-    currentdate = datetime.datetime.strptime(date, '%B %d, %Y').strftime('%Y-%m-%d')
+    currentdate = datetime.datetime.strptime(date, '%b. %d, %Y').strftime('%Y-%m-%d')
     # Get the student name that was passed from the web page
     name = request.GET['studentName']
     # Get the Student_ID from the Student table
@@ -95,25 +77,28 @@ def update_student(request, course_id, date):
                        'AND A.date = %s AND S.student_name = %s ', [course_id, currentdate, student_data.student_name])
         # attendance_status is a tuple containing the students attendance status
         attendance_status = cursor.fetchone()
+        print(attendance_status[0])
     # Create a cursor to execute raw SQL queries.
     with connection.cursor() as cursor:
         # If the student was inadvertently marked as present, switch their status to Absent
-        if attendance_status[0] == 'Present':
+        if attendance_status[0] == '0':
             cursor.execute('UPDATE attendances '
-                           'SET status = "Absent" '
-                           'WHERE students = %s AND date = %s ', [student_data.student_id, currentdate])
+                           'SET status = 1 '
+                           'WHERE student_id = %s AND date = %s ', [student_data.student_id, currentdate])
+            print("Attendance changed to Absent!")
         # If the students status is set to Absent, mark them Present
         else:
             cursor.execute('UPDATE attendances '
-                           'SET status = "Present" '
-                           'WHERE students = %s AND date = %s ', [student_data.student_id, currentdate])
+                           'SET status = 0 '
+                           'WHERE student_id = %s AND date = %s ', [student_data.student_id, currentdate])
+            print("Attendance changed to Present!")
     # Render the response to the user
     return render(request, 'TeacherAttendanceIndex.html', {})
 
 
 def update_student_absent(request, course_id, date):
     # Get the current date in the following format: <4 Digit Year>-<2 Digit Month>-<2 Digit Day>
-    currentdate = datetime.datetime.strptime(date, '%B %d, %Y').strftime('%Y-%m-%d')
+    currentdate = datetime.datetime.strptime(date, '%b. %d, %Y').strftime('%Y-%m-%d')
     # Get the student name that was passed from the web page
     name = request.GET['studentName']
     # Get the absent date that was passed from the web page
@@ -134,15 +119,16 @@ def update_student_absent(request, course_id, date):
         attendance_status = cursor.fetchone()
     # Create a cursor to execute raw SQL queries.
     with connection.cursor() as cursor:
-        if attendance_status[0] == 'Absent':
+        if attendance_status[0] == '1':
             # Change the students attendance status from Absent to 'Makeup: <date>'
             cursor.execute('UPDATE attendances '
-                           'SET status = "Makeup: " %s '
-                           'WHERE students = %s AND date = %s ', [request.GET['makeupDate'], student_data.student_id, date])
+                           'SET status = 1 '
+                           'SET date = "null" '
+                           'WHERE student_id = %s AND date = %s ', [request.GET['makeupDate'], student_data.student_id, date])
         else:
             # Change the students attendance status from 'Makeup: <date>' to Absent
             cursor.execute('UPDATE attendances '
-                           'SET status = "Absent" '
-                           'WHERE students = %s AND date = %s ', [student_data.student_id, date])
+                           'SET status = "1" '
+                           'WHERE student_id = %s AND date = %s ', [student_data.student_id, date])
     # Render the response to the user
     return render(request, 'TeacherAttendanceIndex.html', {})

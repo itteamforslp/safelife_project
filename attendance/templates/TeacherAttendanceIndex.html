@@ -104,6 +104,7 @@
    $('.switch').click(function(){
    var students_name;
    students_name = $(this).attr("data-students_name");
+   student_date = $(this).attr("data-student_date")
    $.ajax(
    {
        type:"GET",

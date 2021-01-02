@@ -8,6 +8,6 @@ urlpatterns = [
     path('<int:course_id>/<int:month>/', views.report, name='reports'),
     path('', views.index, name='index'),
     path('', views.report, name='teacher-reporting'),
-    path('<int:course_id>/', views.index, name='reports'),
-    path('success/', views.success, name = 'success'),   
+    #path('<int:course_id>/', views.index, name='reports'),
+    #path('success/', views.success, name = 'success'),   
 ]

@@ -107,9 +107,9 @@ def update_student_absent(request, course_id, date):
     name = request.GET['studentName']
     # Get the absent date that was passed from the web page
     ##NEW: Get the date picked by the teacher
-    date = request.GET['absentDate']
+    makeupdate = request.GET['absentDate']
     # Convert the date to the following format: <4 Digit Year>-<2 Digit Month>-<2 Digit Day>
-    date = datetime.datetime.strptime(date, '%b. %d, %Y').strftime('%Y-%m-%d')
+    makeupdate = datetime.datetime.strptime(date, '%b. %d, %Y').strftime('%Y-%m-%d')
     # Get the Student_ID from the Student table
     student_data = Student.objects.get(student_name=name)
     # Create a cursor to execute raw SQL queries.
@@ -118,7 +118,7 @@ def update_student_absent(request, course_id, date):
       cursor.execute('UPDATE attendances, classes '
                       'SET attendances.status = 1, attendances.date = %s '
                       'WHERE attendances.student_id = %s AND classes.class_id = attendances.class_id ' 
-                      'classes.date = %s ', [request.GET['makeupDate'], student_data.student_id, date])
+                      'AND classes.date = %s ', [request.GET['makeupDate'], student_data.student_id, currentdate])
         
     # Render the response to the user
     return render(request, 'TeacherAttendanceIndex.html', {})

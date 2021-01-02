@@ -63,7 +63,7 @@
                               </label>
                             </td> 
                             <td>
-                              <div class="input-group date" data-provide="datepicker" style = "visibility: visible;">
+                              <div class="input-group date" data-provide="datepicker" data-date-start-date = "{{ current_date }}" style = "visibility: visible;">
                                 <input type="text" class="form-control">
                                 <div class="input-group-addon">
                                   <span class="glyphicon glyphicon-th"></span>
@@ -101,10 +101,7 @@
        },
     })
    });
-
 </script>
-
-
 <script type="text/javascript">
    $('.datepicker').click(function(){
    var students_name, student_absent_date;

@@ -42,33 +42,6 @@ def home(request, doc_id):
     # Render the template to the user
         return HttpResponse(template.render(context, request))
 
-@login_required(login_url = '/users')
-def default(request):
-        super = request.user.is_superuser
-        with connection.cursor() as cursor:
-                cursor.execute('SELECT D.id, D.doc_name, DT.doc_type_id '
-                                'FROM documents AS D, document_type as DT '
-                                'WHERE D.doc_type_id = DT.doc_type_id '
-                                'ORDER BY DT.doc_type_id ')
-                doc_list = cursor.fetchall()
-
-        
-        categories = DocumentType.objects.select_related().raw('SELECT * '
-                                                          'FROM document_type AS DT '
-                                                          'ORDER BY DT.doc_type ')
-        
-                                                        
-        if super is True:
-            template = loader.get_template('documents/admindocsdefault.html')
-        else:
-            template = loader.get_template('documents/teacherdocsdefault.html')
-        context = {
-                'doc_list': doc_list,
-                'categories': categories
-        }
-
-    # Render the template to the user
-        return HttpResponse(template.render(context, request))
 
 @login_required
 def redirect(request):

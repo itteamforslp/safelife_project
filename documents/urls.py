@@ -4,7 +4,7 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.default, name='default'),
+    #path('', views.default, name='default'),
     path('<int:doc_id>/', views.home, name='home'),
     url(r'^redirect/$', views.redirect, name='redirect'),
 ]

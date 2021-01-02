@@ -43,6 +43,7 @@ def home(request, doc_id):
         return HttpResponse(template.render(context, request))
 
 
+
 @login_required
 def redirect(request):
     if user.is_superuser:

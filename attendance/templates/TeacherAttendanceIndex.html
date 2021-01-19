@@ -58,14 +58,14 @@
                             <td>{{ Student.student_name }}</td>
                             {% if Student.status == 1 %}
                             <td>
-                              <label class="switch" href="#" data-students_name="{{ Student.student_name }}" id = "switch_{{ Student.student_name }}">
+                              <label class="switch" href="#" data-students_name="{{ Student.student_name }}" id = "switch_{{ Student.student_name }}"> 
                               <input type="checkbox" checked data-toggle="toggle" data-on="Absent" data-off="Present" data-onstyle="danger" data-offstyle="success" >
                               <span class="slider round"></span>
                               </label>
                             </td>
                             <td>
                               <div class="input-group date datepicker" id = "Date_{{ Student.student_name }}" data-provide="datepicker" data-students_name="{{ Student.student_name }}" data-date-start-date = "{{ current_date }}" style = "visibility: visible">
-                                  <input type="text" class="form-control">
+                                  <input type="text" class="form-control"> Current Makeup date: {{ Student.date }}
                                   <span class="input-group-addon">
                                      <span class="glyphicon glyphicon-th"></span>
                                   </span>

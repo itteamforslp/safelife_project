@@ -55,7 +55,7 @@
                 
                {% for date in status %}
                
-                 {% ifequal date.students students.students %}
+                 {% if date.students==students.students %}
                  <td>
                   {{date.status}}
                 </td>

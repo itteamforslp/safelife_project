@@ -118,12 +118,12 @@ def report(request, course_id, month):
                                                             'AND CL.course_id = A.course_id AND CL.class_id = A.class_id '
                                                             'GROUP BY student_name', [course_id])
 
-        status = Student.objects.select_related().raw('SELECT    * '
+        status = Student.objects.select_related().raw('SELECT * '
                                                       'FROM students as S, classes as CL, attendances as A '
                                                       'WHERE CL.course_id = %s AND CL.course_id = A.course_id '
                                                       'AND CL.class_id = A.class_id '
                                                       'GROUP BY A.attendance_id '
-                                                      'ORDER BY A.date ', [course_id])
+                                                      'ORDER BY CL.date ', [course_id])
 
         all_dates = Course.objects.select_related().raw('SELECT * '
                                                         'FROM classes '
@@ -150,7 +150,7 @@ def report(request, course_id, month):
                                                       'AND MONTH(CL.date) = %s '
                                                   'AND CL.class_id = A.class_id '
                                                       'GROUP BY A.attendance_id '
-                                                      'ORDER BY A.date ', [course_id, month])
+                                                      'ORDER BY CL.date ', [course_id, month])
 
         all_dates = Course.objects.select_related().raw('SELECT * '
                                                         'FROM classes '

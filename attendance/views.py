@@ -29,17 +29,17 @@ def index(request, course_id, date):
         currentdate = datetime.datetime.strptime(date, '%b. %d, %Y').strftime('%Y-%m-%d')
         # Get the name of each student that is enrolled in the class
         all_students = Student.objects.select_related().raw('SELECT * '
-                                                            'FROM students as S, classes as CL, course_students as CS '
+                                                            'FROM students as S, classes as CL, course_students as CS, attendances as A '
                                                             'WHERE CL.course_id = %s AND S.student_id = CS.students_id '
-                                                            'AND CL.course_id = CS.course_id '
+                                                            'AND S.student_id = A.student_id AND CL.course_id = CS.course_id AND CL.class_id = A.class_id  '
                                                             'AND CL.date = %s ', [course_id, currentdate])
 
         # Get every recorded absence prior to the current date
         absent_students = Student.objects.select_related().raw('SELECT * '
                                                                'FROM students as S, classes as CL, attendances as A '
                                                                'WHERE CL.course_id = %s AND S.student_id = A.student_id '
-                                                               'AND CL.course_id = A.course_id AND CL.date = A.date '
-                                                               'AND A.status = 1 AND A.date < %s ',
+                                                               'AND CL.course_id = A.course_id AND CL.class_id = A.class_id '
+                                                               'AND A.status = 1 AND CL.date = %s ',
                                                                [course_id, currentdate])
         class_dates = Class.objects.filter(course=course_id)
 

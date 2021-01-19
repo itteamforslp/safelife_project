@@ -56,23 +56,37 @@
                         {%  for Student in all_students %}
                         <tr>
                             <td>{{ Student.student_name }}</td>
+                            {% if Student.status == 1 %}
                             <td>
-                              <label class="switch" id="switchbutton" href="#" data-students_name="{{ Student.student_name }}">
-                              <input type="checkbox" id="toggleButton" data-toggle="toggle" data-on="Absent" data-off="Present" data-onstyle="danger" data-offstyle="success" >
+                              <label class="switch" href="#" data-students_name="{{ Student.student_name }}" id = "switch_{{ Student.student_name }}">
+                              <input type="checkbox" checked data-toggle="toggle" data-on="Absent" data-off="Present" data-onstyle="danger" data-offstyle="success" >
                               <span class="slider round"></span>
                               </label>
-                            </td> 
+                            </td>
                             <td>
-                        
-                              <div class="input-group date" data-provide="datepicker" id="datepicker" data-students_name="{{ Student.student_name }}" data-date-start-date = "{{ current_date }}" style = "visibility: hidden">
+                              <div class="input-group date datepicker" id = "Date_{{ Student.student_name }}" data-provide="datepicker" data-students_name="{{ Student.student_name }}" data-date-start-date = "{{ current_date }}" style = "visibility: visible">
                                   <input type="text" class="form-control">
                                   <span class="input-group-addon">
                                      <span class="glyphicon glyphicon-th"></span>
                                   </span>
                               </div>
-                             
-                             
                             </td>
+                            {% else %} 
+                            <td>
+                              <label class="switch" href="#" data-students_name="{{ Student.student_name }}" id="switch_{{ Student.student_name }}">
+                              <input type="checkbox" data-toggle="toggle" data-on="Absent" data-off="Present" data-onstyle="danger" data-offstyle="success">
+                              <span class="slider round"></span>
+                              </label>
+                            </td>
+                            <td>
+                              <div class="input-group date datepicker" id = "Date_{{ Student.student_name }}" data-provide="datepicker" data-students_name="{{ Student.student_name }}" data-date-start-date = "{{ current_date }}" style = "visibility: hidden">
+                                  <input type="text" class="form-control">
+                                  <span class="input-group-addon">
+                                     <span class="glyphicon glyphicon-th"></span>
+                                  </span>
+                              </div>
+                            </td>
+                            {% endif %}
                         </tr>
                         {%  endfor %}
                      </tbody>
@@ -86,64 +100,9 @@
 {% endblock content %}
 {% block scripts %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
-<script type="text/javascript">
-   $('.switch').click(function(){
-   var students_name;
-   students_name = $(this).attr("data-students_name");
-   student_date = $(this).attr("data-student_date")
-   $.ajax(
-   {
-       type:"GET",
-       url: "updateStudent",
-       data:{
-                studentName: students_name,
-       },
-    })
-   });
-</script>
-
-<script type="text/javascript">
-  function dateChanged(ev){
-   var students_name, student_absent_date;
-   students_name = $(this).attr("data-students_name");
-   student_absent_date = $('#datepicker').datepicker("getDate"); 
-   alert(student_absent_date);
-   $.ajax(
-   {
-       type:"GET",
-       url: "updateStudentAbsent",
-       data:{
-            studentName: students_name,
-            absentDate: student_absent_date
-       },
-    })
-   };
-</script>
-
-<script type="text/javascript">
-    $('#datepicker').datepicker({
-      autoclose: true
-    })
-    .on('changeDate', dateChanged);
-</script>
-
-<script type="text/javascript">
-  var switch1 = document.getElementById("switchbutton");
-  var datepicker;
-  switch1.addEventListener('click', function(){
-    datepicker = document.getElementById("datepicker");
-    if(datepicker.style.visibility == 'hidden'){
-      datepicker.style.visibility = 'visible';
-    }else {
-       datepicker.style.visibility = 'hidden';
-    }
-  });
-</script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
 
 
 <script type="text/javascript">
@@ -158,6 +117,53 @@
    url = url + '/' + date;
    window.location.replace(url);
    });
+
+  $('.switch').click(function(){
+  var students_name;
+  students_name = $(this).attr("data-students_name");
+  student_date = $(this).attr("data-student_date")
+  $.ajax(
+  {
+       type:"GET",
+       url: "updateStudent",
+       data:{
+                studentName: students_name,
+       },
+  })
+
+  var datep;
+    datep = document.getElementById("Date_" + students_name);
+    if(datep.style.visibility == 'hidden'){
+      datep.style.visibility = 'visible';
+    }else {
+       datep.style.visibility = 'hidden';
+    }
+  });  
+  
+  function dateChanged(ev){
+    var students_name, student_absent_date;
+    students_name = $(this).attr("data-students_name");
+    student_absent_date = $(this).datepicker("getDate"); 
+    alert(student_absent_date);
+    $.ajax(
+    {
+       type:"GET",
+       url: "updateStudentAbsent",
+       data:{
+            studentName: students_name,
+            absentDate: student_absent_date
+       },
+    })  
+   };
+
+  $('.datepicker').datepicker({
+    autoclose: true,
+  }).on('changeDate', dateChanged);
+  
+
+
+
+ 
 </script>
 
 {% endblock scripts %}

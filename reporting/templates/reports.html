@@ -55,18 +55,16 @@
                 
                {% for date in status %}
                
-                 {% if date.students==students.students %}
+                 {% if date.students_id == students.student_id %}
                  <td>
                   {{date.status}}
                 </td>
-                  {% endifequal %}
+                  {% endif %}
                
                {% endfor %}  
-               {% endfor %}
-               
-               
                
               </tr>
+              {% endfor %}
             </tbody>
             
 

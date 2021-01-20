@@ -46,14 +46,18 @@
                   </div>
                </th>
                {% for date in status %}
-               {% ifequal date.students students.students %}
+               {% if date.student_id == students.student_id %}
                <td>
                   {{date.status}}
+                  {% if date.status == 1 %}
+                    (Current Makeup date: {{date.date}} )
+                  {% endif %}
                </td>
-               {% endifequal %}
+               {% endif %}
                {% endfor %}  
-               {% endfor %}
+              
             </tr>
+             {% endfor %}
          </tbody>
       </table>
       <div class="card-body">

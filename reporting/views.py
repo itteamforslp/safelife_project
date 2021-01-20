@@ -109,21 +109,21 @@ def report(request, course_id, month):
         template = loader.get_template('AdminReport.html')
     else:
         template = loader.get_template('TeacherReport.html')
-
+    print(month)
     if month is 0:
         all_students = Student.objects.select_related().raw('SELECT * '
-                                                            'FROM students as S, classes as CL, attendances as A '
+                                                            'FROM students as S, course_students as CS, classes as CL, attendances as A '
                                                             'WHERE CL.course_id = %s AND S.student_id = A.student_id '
-                                                            #'AND CL.course_id = A.course_id AND CL.date = A.date '
-                                                            'AND CL.course_id = A.course_id AND CL.class_id = A.class_id '
+                                                            'AND S.student_id = CS.students_id '
+                                                            'AND CL.course_id = CS.course_id AND CL.class_id = A.class_id '
                                                             'GROUP BY student_name', [course_id])
 
         status = Student.objects.select_related().raw('SELECT * '
                                                       'FROM students as S, classes as CL, attendances as A '
                                                       'WHERE CL.course_id = %s AND CL.course_id = A.course_id '
                                                       'AND CL.class_id = A.class_id '
-                                                      'GROUP BY A.attendance_id '
-                                                      'ORDER BY CL.date ', [course_id])
+                                                      'AND S.student_id = A.student_id '
+                                                      'GROUP BY A.attendance_id, CL.date ', [course_id])
 
         all_dates = Course.objects.select_related().raw('SELECT * '
                                                         'FROM classes '
@@ -135,6 +135,7 @@ def report(request, course_id, month):
             'all_students': all_students,
             'status': status
         }
+
     else:
         all_students = Student.objects.select_related().raw('SELECT * '
                                                             'FROM students as S, classes as CL, attendances as A '
@@ -148,9 +149,8 @@ def report(request, course_id, month):
                                                       'WHERE CL.course_id = %s '
                                                       'AND CL.course_id = A.course_id '
                                                       'AND MONTH(CL.date) = %s '
-                                                  'AND CL.class_id = A.class_id '
-                                                      'GROUP BY A.attendance_id '
-                                                      'ORDER BY CL.date ', [course_id, month])
+                                                      'AND CL.class_id = A.class_id '
+                                                      'GROUP BY A.attendance_id, CL.date ', [course_id, month])
 
         all_dates = Course.objects.select_related().raw('SELECT * '
                                                         'FROM classes '

@@ -64,15 +64,18 @@
                                  <a class="mb-0 text-sm">{{students.student_name}} </a>
                               </div>
                            </th>
-                           {% for date in status %}
-                           {% ifequal date.students students.students %}
-                           <td>
-                              {{date.status}}
-                           </td>
-                           {% endifequal %}
-                           {% endfor %}
-                           {% endfor %}
+                            {% for date in status %}
+                            {% if date.student_id == students.student_id %}
+                          <td>
+                            {{date.status}}
+                            {% if date.status == 1 %}
+                                ( {{date.date}} )
+                            {% endif %}
+                          </td>
+                          {% endif %}
+                          {% endfor %} 
                         </tr>
+                        {% endfor %}
                      </tbody>
                   </table>
                   <div class="card-body">

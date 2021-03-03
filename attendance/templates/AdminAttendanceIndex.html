@@ -57,36 +57,41 @@
                      <tbody>
                         {%  for Student in all_students %}
                         <tr>
-                           <td>{{ Student.student_name }}</td>
-                           {% ifequal "Absent" Student.status %}
-                           <td>
-                              <label class="switch" id="{{Student.student_name}}" href="#" data-students_name="{{ Student.student_name }}">
-                              <input type="checkbox" checked data-toggle="toggle" data-on="Absent" data-off="Present" data-onstyle="danger" data-offstyle="success">
+                            <td>{{ Student.student_name }}</td>
+                            {% if Student.status == 1 %}
+                            <td>
+                              <label class="switch" href="#" data-students_name="{{ Student.student_name }}" id = "switch_{{ Student.student_name }}"> 
+                              <input type="checkbox" checked data-toggle="toggle" data-on="Absent" data-off="Present" data-onstyle="danger" data-offstyle="success" >
                               <span class="slider round"></span>
                               </label>
-                           </td>
-                           {% else %}
-                           <td>
-                              <label class="switch" id="{{Student.student_name}}" href="#" data-students_name="{{ Student.student_name }}">
+                            </td>
+                            <td>
+                              <div class="input-group date datepicker" id = "Date_{{ Student.student_name }}" data-provide="datepicker" data-students_name="{{ Student.student_name }}" data-date-start-date = "{{ current_date }}" style = "visibility: visible">
+                                  <input type="text" class="form-control"> Current Makeup date: {{ Student.date }}
+                                  <span class="input-group-addon">
+                                     <span class="glyphicon glyphicon-th"></span>
+                                  </span>
+                              </div>
+                            </td>
+                            {% else %} 
+                            <td>
+                              <label class="switch" href="#" data-students_name="{{ Student.student_name }}" id="switch_{{ Student.student_name }}">
                               <input type="checkbox" data-toggle="toggle" data-on="Absent" data-off="Present" data-onstyle="danger" data-offstyle="success">
                               <span class="slider round"></span>
                               </label>
-                           </td>
-                           {% endifequal %}
-                           <td>
-                              {%  for Absent in absent_students %}
-                              {% ifequal Student.student_name Absent.student_name %}
-                              <label>{{Absent.date}}</label>
-                              <input type="date" id="{{Student.student_name}} {{ Absent.date }}" href="#" data-students_name="{{ Student.student_name }}" data-student_absent_date="{{ Absent.date }}" onchange="handler(this);"></br>
-                              {% endifequal %}
-                              {%  endfor %}
-                           </td>
-                           </td>
+                            </td>
+                            <td>
+                              <div class="input-group date datepicker" id = "Date_{{ Student.student_name }}" data-provide="datepicker" data-students_name="{{ Student.student_name }}" data-date-start-date = "{{ current_date }}" style = "visibility: hidden">
+                                  <input type="text" class="form-control">
+                                  <span class="input-group-addon">
+                                     <span class="glyphicon glyphicon-th"></span>
+                                  </span>
+                              </div>
+                            </td>
+                            {% endif %}
                         </tr>
                         {%  endfor %}
                      </tbody>
-                  </table>
-                  </tbody>
                   </table>
                </div>
             </div>
@@ -96,39 +101,11 @@
 </div>
 {% endblock content %}
 {% block scripts %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script type="text/javascript">
-   $('.switch').click(function(){
-   var students_name;
-   students_name = $(this).attr("data-students_name");
-   $.ajax(
-   {
-       type:"GET",
-       url: "updateStudent",
-       data:{
-                studentName: students_name,
-       },
-    })
-   });
-</script>
-<script type="text/javascript">
-   $('.date').click(function(){
-   var students_name, student_absent_date, date;
-   students_name = $(this).attr("data-students_name");
-   student_absent_date = $(this).attr("data-student_absent_date");
-   date = $(this).valueOf();
-   alert(date);
-   $.ajax(
-   {
-       type:"GET",
-       url: "updateStudentAbsent",
-       data:{
-            studentName: students_name,
-            absentDate: student_absent_date
-       },
-    })
-   });
-</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
 <script type="text/javascript">
    $('.dropdown-item').click(function(){
    var date;
@@ -141,28 +118,55 @@
    url = url + '/' + date;
    window.location.replace(url);
    });
+
+  $('.switch').click(function(){
+  var students_name;
+  students_name = $(this).attr("data-students_name");
+  student_date = $(this).attr("data-student_date")
+  $.ajax(
+  {
+       type:"GET",
+       url: "updateStudent",
+       data:{
+                studentName: students_name,
+       },
+  })
+
+  var datep;
+    datep = document.getElementById("Date_" + students_name);
+    if(datep.style.visibility == 'hidden'){
+      datep.style.visibility = 'visible';
+    }else {
+       datep.style.visibility = 'hidden';
+    }
+  });  
+  
+  function dateChanged(ev){
+    var students_name, student_absent_date;
+    students_name = $(this).attr("data-students_name");
+    student_absent_date = $(this).datepicker("getDate"); 
+    alert(student_absent_date);
+    $.ajax(
+    {
+       type:"GET",
+       url: "updateStudentAbsent",
+       data:{
+            studentName: students_name,
+            absentDate: student_absent_date
+       },
+    })  
+   };
+
+  $('.datepicker').datepicker({
+    autoclose: true,
+  }).on('changeDate', dateChanged);
+  
+
+
+
+ 
+
 </script>
-<script>
-   function handler(e){
-     var students_name, student_absent_date, date;
-      students_name = e.getAttribute("data-students_name");
-      student_absent_date = e.getAttribute("data-student_absent_date");
-      date = e.value;
-      $.ajax(
-      {
-          type:"GET",
-          url: "updateStudentAbsent",
-          data:{
-               studentName: students_name,
-               absentDate: student_absent_date,
-               makeupDate: date
-          },
-       });
-   }
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
+
 {% endblock scripts %}
 

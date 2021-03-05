@@ -25,8 +25,14 @@ def index(request, course_id, date):
     else:
         template = loader.get_template('TeacherAttendanceIndex.html')
     if attendance_status is not None or super is True:
+        substring = ['March', 'April', 'May', 'June', 'July']
+        if any(x in date for x in substring):
+          print("TRUE!")
+          currentdate = datetime.datetime.strptime(date, '%B %d, %Y').strftime('%Y-%m-%d')
         # Get the current date in the following format: <4 Digit Year>-<2 Digit Month>-<2 Digit Day>
-        currentdate = datetime.datetime.strptime(date, '%b. %d, %Y').strftime('%Y-%m-%d')
+        else:
+          currentdate = datetime.datetime.strptime(date, '%b. %d, %Y').strftime('%Y-%m-%d')
+        
         # Get the name of each student that is enrolled in the class
         all_students = Student.objects.select_related().raw('SELECT * '
                                                             'FROM students as S, classes as CL, course_students as CS, attendances as A '
@@ -43,7 +49,7 @@ def index(request, course_id, date):
                                                                [course_id, currentdate])
         class_dates = Class.objects.filter(course=course_id)
 
-                                                                  
+                                                          
         currentdate = datetime.datetime.strptime(currentdate, '%Y-%m-%d').strftime('%B %d, %Y')
         # Create a template using AdminAttendanceIndex.html, and pass into it the list of student names and recorded absences
 
@@ -62,8 +68,14 @@ def index(request, course_id, date):
 
 
 def update_student(request, course_id, date):
+    substring = ['March', 'April', 'May', 'June', 'July']
+    if any(x in date for x in substring):
+        currentdate = datetime.datetime.strptime(date, '%B %d, %Y').strftime('%Y-%m-%d')
+    
+    else:
     # Get the current date in the following format: <4 Digit Year>-<2 Digit Month>-<2 Digit Day>
-    currentdate = datetime.datetime.strptime(date, '%b. %d, %Y').strftime('%Y-%m-%d')
+      currentdate = datetime.datetime.strptime(date, '%b. %d, %Y').strftime('%Y-%m-%d')
+    
     # Get the student name that was passed from the web page
     name = request.GET['studentName']
     # Get the Student_ID from the Student table
@@ -101,8 +113,14 @@ def update_student(request, course_id, date):
 
 
 def update_student_absent(request, course_id, date):
-    # Get the current date in the following format: <4 Digit Year>-<2 Digit Month>-<2 Digit Day>
-    currentdate = datetime.datetime.strptime(date, '%b. %d, %Y').strftime('%Y-%m-%d')
+    substring = ['March', 'April', 'May', 'June', 'July']
+    if any(x in date for x in substring):
+        currentdate = datetime.datetime.strptime(date, '%B %d, %Y').strftime('%Y-%m-%d')
+    
+    else:
+      # Get the current date in the following format: <4 Digit Year>-<2 Digit Month>-<2 Digit Day>
+      currentdate = datetime.datetime.strptime(date, '%b. %d, %Y').strftime('%Y-%m-%d')
+    
     # Get the student name that was passed from the web page
     name = request.GET['studentName']
     # Get the absent date that was passed from the web page

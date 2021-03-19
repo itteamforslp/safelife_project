@@ -67,9 +67,13 @@
                             {% for date in status %}
                             {% if date.student_id == students.student_id %}
                           <td>
-                            {{date.status}}
                             {% if date.status == 1 %}
-                                ( {{date.date}} )
+                                A 
+                                {% if date.date != None %}
+                                  ({{date.date}})
+                                {% endif %}
+                            {% else %}
+                                X
                             {% endif %}
                           </td>
                           {% endif %}

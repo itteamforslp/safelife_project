@@ -97,7 +97,7 @@ def update_student(request, course_id, date):
         if attendance_status[0] == 0:
             print("this statement is true!")
             cursor.execute('UPDATE attendances, classes '
-                           'SET attendances.status = 1 '
+                           'SET attendances.status = 1, attendances.date = 0000-00-00 '
                            'WHERE attendances.student_id = %s AND classes.class_id = attendances.class_id '
                            'AND classes.date = %s ', [student_data.student_id, currentdate])
             print("Attendance changed to Absent!")
@@ -132,7 +132,7 @@ def update_student_absent(request, course_id, date):
     makeupdate = ' '.join(makeupdate)
 
     makeupdate = datetime.datetime.strptime(makeupdate, '%a %b %d %Y %X %Z%z').strftime('%Y-%m-%d')
-    print(name)
+    print(date)
     print(makeupdate)
     # Get the Student_ID from the Student table
     student_data = Student.objects.get(student_name=name)

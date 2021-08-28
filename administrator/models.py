@@ -6,6 +6,7 @@ from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models.signals import pre_save
 from datetime import datetime
+
 class Student(models.Model):
     student_id = models.CharField(max_length=5, primary_key=True)
     student_name = models.CharField(max_length=50)
@@ -64,11 +65,12 @@ class CourseTeacher(models.Model):
         return str(self.teachers)
 
     class Meta:
+        unique_together = ["course", "teachers"]
         db_table = 'course_teachers'
 
 
 class Class(models.Model):
-    class_id = models.AutoField(default = '999', primary_key=True)
+    class_id = models.AutoField(primary_key=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     date = models.DateField()
 
@@ -76,7 +78,7 @@ class Class(models.Model):
         return str(self.date)
 
     class Meta:
-        unique_together = ["class_id", "course", "date"]
+        unique_together = ["course", "date"]
         db_table = 'classes'
     
     def save(self, *args, **kwargs):
@@ -85,9 +87,9 @@ class Class(models.Model):
 
 
 class Attendance(models.Model):
-    attendance_id = models.CharField(default = '999',max_length=50, primary_key=True)
+    attendance_id = models.CharField(max_length=50, primary_key=True)
     status = models.BooleanField(default = False)
-    date = models.DateField()#ForeignKey(Class, null = True, blank = True, on_delete=models.CASCADE)
+    date = models.DateField()
     course = models.ForeignKey(Course, related_name='course_identifier', on_delete=models.CASCADE)
     Class = models.ForeignKey(Class, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)

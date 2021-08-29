@@ -19,9 +19,9 @@ __pycache__/
 *.zip
 
 # Environemnts #
-.env
-.venv
-venv/
-ENV/
-env.bak/
-venv.bak/
+#.env
+#.venv
+#venv/
+#ENV/
+#env.bak/
+#venv.bak/

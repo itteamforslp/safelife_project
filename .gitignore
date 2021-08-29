@@ -19,3 +19,11 @@ requirements.txt
 *.rar
 *.tar
 *.zip
+
+# Environemnts #
+.env
+.venv
+venv/
+ENV/
+env.bak/
+venv.bak/

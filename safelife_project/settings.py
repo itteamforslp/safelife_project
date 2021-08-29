@@ -17,7 +17,10 @@ import django_heroku
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 import os.path
-from decouple import config
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -36,14 +39,13 @@ STATICFILES_DIRS = (
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = env(‘SECRET_KEY’)
 
 #SECRET_KEY = '(m71(q1*8as#3xjscj=sp_3*^2##+=4hv*s+@*57eoo6zk^qv2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
 
-#DEBUG = True
+DEBUG = True
 
 ALLOWED_HOSTS = ['0.0.0.0','localhost', 'portal-2-success.herokuapp.com',]
 
@@ -114,11 +116,11 @@ WSGI_APPLICATION = 'safelife_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'whoby76ie8bpfdw1',
-        'USER': 'yu58wt7hhibhyn2n',
-        'PASSWORD': 'abrj8451stbthzm3',
-        'HOST': 'qz8si2yulh3i7gl3.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-        'PORT': '3306'
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASS'),
+        'HOST': env('DATABASE_HOST'),
+        'PORT': env('DATABASE_PORT')
     }
 }
 

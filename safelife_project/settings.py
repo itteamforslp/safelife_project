@@ -15,8 +15,11 @@ import django_heroku
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-
+import environ
 import os.path
+
+env = environ.Env()
+environ.Env.read_env()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -35,7 +38,7 @@ STATICFILES_DIRS = (
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '(m71(q1*8as#3xjscj=sp_3*^2##+=4hv*s+@*57eoo6zk^qv2'
+SECRET_KEY = env(‘SECRET_KEY’)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -109,11 +112,11 @@ WSGI_APPLICATION = 'safelife_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'vivu5r0uq0sricx1',
-        'USER': 'k5igzxje6tbuhzph',
-        'PASSWORD': 'fnkfr52zgs7n9j3q',
-        'HOST': 'l0ebsc9jituxzmts.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-        'PORT': '3306'
+        'NAME': env('DATABASE_NAME')
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASS'),
+        'HOST': env('DATABASE_HOST'),
+        'PORT': env('DATABASE_PORT')
     }
 }
 

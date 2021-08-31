@@ -19,9 +19,11 @@ __pycache__/
 *.zip
 
 # Environemnts #
-.env
+#.env
 #.venv
 #venv/
 #ENV/
 #env.bak/
 #venv.bak/
+
+requirements.txt

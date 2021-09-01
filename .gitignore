@@ -1,7 +1,5 @@
 # Don't track content of these folders
 __pycache__/
-requirements.txt
-
 
 # Compiled source #
 ###################
@@ -20,7 +18,7 @@ requirements.txt
 *.tar
 *.zip
 
-# Environments
+# Environemnts #
 #.env
 #.venv
 #env/

@@ -7,7 +7,7 @@
 {% endblock topbar %}
 {% block header %}
 <div class="header bg-gradient-indigo pb-8 pt-5 pt-md-8">
-    <div class="container-fluid d-flex align-items-center"">
+    <div class="container-fluid d-flex align-items-center">
         <div class="row">
             <div class="col-lg-7 col-md-10">
               <h1 class="display-2 text-white">Hello {{ user.get_short_name }}</h1>
@@ -102,7 +102,7 @@
    <div class="col">
       <div class="card bg-default shadow">
          <div class="card-header bg-transparent border-0">
-            <h3 class="text-white mb-0">All Classes</h3>
+            <h3 class="text-white mb-0">All Courses</h3>
          </div>
          <div class="table-responsive">
             <table class="table align-items-center table-dark table-flush">
@@ -121,9 +121,9 @@
                       <div class="media-body">
                          {% for x,y in all_next_class_date %}
                          {% if x == allcourses.course_id %}
-                         <a href="attendance/{{ x }}/{{ y }}" class="mb-0 text-sm">{{ allcourses.course_name  }} </a>
+                         <a href="attendance/{{ x }}/{{ y }}" class="mb-0 text-sm">{{ allcourses.course_name }} </a>
                          {% endif %}
-                         {% endfor %}
+                         {% endfor %}      
                       </div>
                    </th>
                      <th>
@@ -169,6 +169,11 @@
 {% block scripts %}
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<!-- DataTables -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.11.0/b-2.0.0/b-html5-2.0.0/b-print-2.0.0/fh-3.1.9/sp-1.4.0/datatables.min.js"></script>
+
 <script type="text/javascript">
    $('.edit').click(function(){
    var course_notes, course_id
@@ -199,6 +204,9 @@
    $('#'+"input"+course_id).show();
    });
    
+   $(document).ready(function() {
+      $('.table').DataTable();
+   } );
 </script>
 {% endblock scripts %}
 

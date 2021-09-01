@@ -6,6 +6,7 @@ from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models.signals import pre_save
 from datetime import datetime
+
 class Student(models.Model):
     student_id = models.CharField(max_length=5, primary_key=True)
     student_name = models.CharField(max_length=50)
@@ -52,6 +53,7 @@ class CourseStudent(models.Model):
         return str(self.students)
 
     class Meta:
+        unique_together = ["course", "students"]
         db_table = 'course_students'
 
 
@@ -63,11 +65,12 @@ class CourseTeacher(models.Model):
         return str(self.teachers)
 
     class Meta:
+        unique_together = ["course", "teachers"]
         db_table = 'course_teachers'
 
 
 class Class(models.Model):
-    class_id = models.AutoField(max_length=5, primary_key=True)
+    class_id = models.AutoField(primary_key=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     date = models.DateField()
 
@@ -75,55 +78,21 @@ class Class(models.Model):
         return str(self.date)
 
     class Meta:
+        unique_together = ["course", "date"]
         db_table = 'classes'
     
     def save(self, *args, **kwargs):
         if self.pk is None:
             super(Class, self).save(*args, **kwargs)
-#
-#    def save(self, *args, **kwargs):
-#        created = not self.pk
-#        super().save(*args, **kwargs)
-#        print("Pre work")
-#        if created:
-#            print("right before creation!")
-#            print(CourseStudent.course)
-#            print(CourseStudent.students)
-#            Attendance.objects.create(course = CourseStudent.course , student = CourseStudent.students, status = False, date = self.date)
-#            print("Created attendance!")
+
 
 class Attendance(models.Model):
-   # classroom = models.ForeignKey(Class, related_name='class_identitfication', on_delete=models.CASCADE)
     attendance_id = models.CharField(max_length=50, primary_key=True)
     status = models.BooleanField(default = False)
-    date = models.DateField()#ForeignKey(Class, null = True, blank = True, on_delete=models.CASCADE)
+    date = models.DateField()
     course = models.ForeignKey(Course, related_name='course_identifier', on_delete=models.CASCADE)
     Class = models.ForeignKey(Class, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
 
-   # def save(self, *args, **kwargs):
-   #     if self.date is None:
-   #         self.date = Class.date
-   #     super(Attendance, self).save(*args, **kwargs)
-
-
-
-
     class Meta:
         db_table = 'attendances'
-
- #date = models.DateField()
-    #students = models.CharField(max_length=5)
-    #classes = models.CharField(max_length=5)
-    #status = models.CharField(max_length=50)
-
-#def create_attendance(sender,instance, created, **kwargs):
-#    print("Attempting to create attendance!")
-#    if created:
-#        print("Attempting still!")
-#        Attendance.objects.create(course = kwargs['instance'].course, student = kwargs['instance'].students, status = False)
-#
-#post_save.connect(create_attendance, sender=CourseStudent)
-   # if created == False:
-   #     instance.Attendance.save()
-   #     print('Attendance updated!')

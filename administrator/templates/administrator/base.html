@@ -16,6 +16,10 @@
   <link href="{% static 'assets/vendor/@fortawesome/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
   <!-- Argon CSS -->
   <link type="text/css" href="{% static 'assets/css/argon.css' %}" rel="stylesheet">
+  <!-- DataTables -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.11.0/b-2.0.0/b-html5-2.0.0/b-print-2.0.0/fh-3.1.9/sp-1.4.0/datatables.min.css"/>
+  <!-- Custom CSS -->
+  <link type="text/css" href="{% static 'assets/css/custom.css' %}" rel="stylesheet">
   {% block metadata %}{% endblock metadata %}
 </head>
 
@@ -159,6 +163,7 @@
   <script src="{% static 'assets/vendor/chart.js/dist/Chart.extension.js' %}"></script>
   <!-- Argon JS -->
   <script src="{% static 'assets/js/argon.js' %}"></script>
+  
   {% block scripts %}{% endblock scripts %}
 </body>
 

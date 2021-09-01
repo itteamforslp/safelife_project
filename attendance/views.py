@@ -26,7 +26,10 @@ def index(request, course_id, date):
         template = loader.get_template('TeacherAttendanceIndex.html')
     if attendance_status is not None or super is True:
         substring = ['March', 'April', 'May', 'June', 'July']
-        if any(x in date for x in substring):
+        substring2 = ['Sept.']
+        if any(x in date for x in substring2):
+            currentdate = datetime.datetime.strptime(date.upper().replace("SEPT", "SEP"), "%b. %d, %Y").strftime('%Y-%m-%d')
+        elif any(x in date for x in substring):
           print("TRUE!")
           currentdate = datetime.datetime.strptime(date, '%B %d, %Y').strftime('%Y-%m-%d')
         # Get the current date in the following format: <4 Digit Year>-<2 Digit Month>-<2 Digit Day>
@@ -69,9 +72,11 @@ def index(request, course_id, date):
 
 def update_student(request, course_id, date):
     substring = ['March', 'April', 'May', 'June', 'July']
-    if any(x in date for x in substring):
+    substring2 = ['Sept.']
+    if any(x in date for x in substring2):
+        currentdate = datetime.datetime.strptime(date.upper().replace("SEPT", "SEP"), "%b. %d, %Y").strftime('%Y-%m-%d')
+    elif any(x in date for x in substring):
         currentdate = datetime.datetime.strptime(date, '%B %d, %Y').strftime('%Y-%m-%d')
-    
     else:
     # Get the current date in the following format: <4 Digit Year>-<2 Digit Month>-<2 Digit Day>
       currentdate = datetime.datetime.strptime(date, '%b. %d, %Y').strftime('%Y-%m-%d')
@@ -114,7 +119,10 @@ def update_student(request, course_id, date):
 
 def update_student_absent(request, course_id, date):
     substring = ['March', 'April', 'May', 'June', 'July']
-    if any(x in date for x in substring):
+    substring2 = ['Sept.']
+    if any(x in date for x in substring2):
+        currentdate = datetime.datetime.strptime(date.upper().replace("SEPT", "SEP"), "%b. %d, %Y").strftime('%Y-%m-%d')
+    elif any(x in date for x in substring):
         currentdate = datetime.datetime.strptime(date, '%B %d, %Y').strftime('%Y-%m-%d')
     
     else:

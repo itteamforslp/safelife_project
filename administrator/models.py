@@ -52,6 +52,7 @@ class CourseStudent(models.Model):
         return str(self.students)
 
     class Meta:
+        unique_together = ["course", "students"]
         db_table = 'course_students'
 
 
@@ -63,6 +64,7 @@ class CourseTeacher(models.Model):
         return str(self.teachers)
 
     class Meta:
+        unique_together = ["course", "teachers"]
         db_table = 'course_teachers'
 
 
@@ -75,6 +77,7 @@ class Class(models.Model):
         return str(self.date)
 
     class Meta:
+        unique_together = ["course", "date"]
         db_table = 'classes'
     
     def save(self, *args, **kwargs):

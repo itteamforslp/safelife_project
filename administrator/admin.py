@@ -1,6 +1,11 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.models import User
 from datetime import datetime
 from .models import Student, Teacher, Course, CourseStudent, CourseTeacher, Class, Attendance
+from .forms import UserRegistrationForm
+
 
 class AttendanceInline(admin.TabularInline):
    model = Attendance
@@ -15,9 +20,6 @@ class StudentAdmin(admin.ModelAdmin):
 
 class CourseStudentInline(admin.TabularInline):
     model = CourseStudent
-    #inlines = [
-    #    AttendanceInline,
-    #]
 
 class CourseTeacherInline(admin.TabularInline):
     model = CourseTeacher
@@ -38,8 +40,16 @@ class CourseAdmin(admin.ModelAdmin):
         ClassInline,
     ]
     exclude = ('notes',)
-    
 
+    list_display = ('course_name', 'course_id')
+    
+class UserAdmin(admin.ModelAdmin):
+    model = User
+    form = UserRegistrationForm
+    list_display = ('username', 'first_name', 'last_name')
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.site_header = "Safe Life Project ";

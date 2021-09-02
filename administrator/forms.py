@@ -1,16 +1,12 @@
 from django import forms
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
-class AttendanceForm(forms.Form):
-	#def __init__(self, *args, **kwargs):
-		#super(AttendanceForm, self).__init__(*args, **kwargs)
+class UserRegistrationForm(UserCreationForm):
+	first_name = forms.CharField(max_length = 30)
+	last_name = forms.CharField(max_length = 30)
 
-		#self.fields['name'].disabled = True
-		
-
-	#def save(request)
-		#form = AttendanceForm(request.POST)
-
-		#if form.is_valid():
-			#attendance = form.save(False)
-			#Need to make the studentid = studentname
+	class Meta:
+		model = User
+		fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
 

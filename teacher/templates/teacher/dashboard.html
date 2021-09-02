@@ -95,6 +95,11 @@
 {% block scripts %}
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<!-- DataTables -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.11.0/b-2.0.0/b-html5-2.0.0/b-print-2.0.0/fh-3.1.9/sp-1.4.0/datatables.min.js"></script>
+
 <script type="text/javascript">
    $('.edit').click(function(){
    var course_notes, course_id
@@ -125,6 +130,9 @@
    $('#'+"input"+course_id).show();
    });
    
+   $(document).ready(function() {
+      $('.table').DataTable();
+   } );
 </script>
 {% endblock scripts %}
 

@@ -89,8 +89,15 @@
   {% endblock content %}
   {% block scripts %}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+  <!-- DataTables -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.11.0/b-2.0.0/b-html5-2.0.0/b-print-2.0.0/fh-3.1.9/sp-1.4.0/datatables.min.js"></script>
 
-      <script type="text/javascript">
+  <script type="text/javascript">
 
       
 
@@ -111,9 +118,7 @@
           alert(chosenClass + " " + chosenStudent + " " + chosenReport);
 
               });
- </script>
 
-<script type="text/javascript">
   $('.dropdown-item').click(function(){
   var classChoice;
   classChoice = $(this).attr("class_choice");
@@ -125,11 +130,13 @@
   url = url + '/' + date;
   window.location.replace(url);
   });
+  
+  $(document).ready(function() {
+      $('.table').DataTable();
+  } );
 </script>
 
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    
     {% endblock scripts %}
